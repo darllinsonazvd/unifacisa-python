@@ -40,30 +40,28 @@ while True:
         if (
             deleteAll == "s"
             or deleteAll == "S"
-            or deleteAll == "ss"
-            or deleteAll == "SS"
             or deleteAll == "sim"
             or deleteAll == "Sim"
             or deleteAll == "SIM"
         ):
             claims.clear()
-            print("Todas as reclamações foram removidas!\n")
+            print("\nTodas as reclamações foram removidas!\n")
         else:
             print("\nQual a reclamação que você deseja remover?")
 
             if len(claims) == 0:
-                print("Não há reclamações para remover\n")
+                print("\nNão há reclamações para remover\n")
             else:
                 for index, claim in enumerate(claims):
                     print(index + 1, "|", claim)
 
             indexOfClaim = int(input("\nNúmero da reclamação: "))
 
-            if indexOfClaim > len(claims) or indexOfClaim == 0:
-                print("Não encontramos a reclamação em nosso banco de dados!\n")
+            if indexOfClaim > len(claims) or indexOfClaim <= 0:
+                print("\nNão encontramos a reclamação em nosso banco de dados!\n")
             else:
                 claims.pop(indexOfClaim - 1)
-                print("Reclamação removida com sucesso!\n")
+                print("\nReclamação removida com sucesso!\n")
     elif option == 4:
         print()
 
