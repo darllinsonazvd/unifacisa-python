@@ -1,10 +1,6 @@
-print("-" * 15, "Bem vindo ao sistema de ouvidoria da Unifacisa", "-" * 15)
+print("-" * 12, "Bem-vindo ao sistema de ouvidoria da Unifacisa!", "-" * 12)
 
-claims = [
-    "Bebedouro 1o andar não gela a água",
-    "Computador na sala 223 deu pau",
-    "Mesa quebrada",
-]  # Array de reclamações
+claims = []  # Array de reclamações
 
 while True:
     print("\nSelecione uma opção:\n")
@@ -12,7 +8,7 @@ while True:
     print("2 - Adicionar reclamação")
     print("3 - Remover reclamações")
     print("4 - Sair\n")
-    print("-" * 80)
+    print("-" * 75)
 
     option = int(input("Opção: "))
 
@@ -24,14 +20,12 @@ while True:
         else:
             for index, claim in enumerate(claims):
                 print(index + 1, "|", claim)
-
-        print()
     elif option == 2:
         print()
 
         claim = input("Digite sua reclamação:\n")
         claims.append(claim)
-        print("Reclamação adicionada com sucesso!\n")
+        print("\nReclamação adicionada com sucesso!")
     elif option == 3:
         print()
 
@@ -45,12 +39,12 @@ while True:
             or deleteAll == "SIM"
         ):
             claims.clear()
-            print("\nTodas as reclamações foram removidas!\n")
+            print("\nTodas as reclamações foram removidas!")
         else:
-            print("\nQual a reclamação que você deseja remover?")
+            print("\nQual a reclamação que você deseja remover?\n")
 
             if len(claims) == 0:
-                print("\nNão há reclamações para remover\n")
+                print("\nNão há reclamações para remover")
             else:
                 for index, claim in enumerate(claims):
                     print(index + 1, "|", claim)
