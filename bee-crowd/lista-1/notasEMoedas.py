@@ -2,51 +2,51 @@ dinheiro = float(input())
 
 # Notas
 notasDe100 = dinheiro // 100
-dinheiro = dinheiro - notasDe100 * 100
+dinheiro -= notasDe100 * 100
 
 notasDe50 = dinheiro // 50
-dinheiro = dinheiro - notasDe50 * 50
+dinheiro -= notasDe50 * 50
 
 notasDe20 = dinheiro // 20
-dinheiro = dinheiro - notasDe20 * 20
+dinheiro -= notasDe20 * 20
 
 notasDe10 = dinheiro // 10
-dinheiro = dinheiro - notasDe10 * 10
+dinheiro -= notasDe10 * 10
 
 notasDe5 = dinheiro // 5
-dinheiro = dinheiro - notasDe5 * 5
+dinheiro -= notasDe5 * 5
 
 notasDe2 = dinheiro // 2
-dinheiro = dinheiro - notasDe2 * 2
+dinheiro -= notasDe2 * 2
 
 # Moedas
 moedasDe1R = dinheiro // 1
-dinheiro = dinheiro - moedasDe1R * 1
+dinheiro -= moedasDe1R * 1
 moedasDe1R = float("%.2f" % moedasDe1R)
 dinheiro = float("%.2f" % dinheiro)
 
 moedasDe50 = dinheiro // 0.50
-dinheiro = dinheiro - moedasDe50 * 0.50
+dinheiro -= moedasDe50 * 0.50
 moedasDe50 = float("%.2f" % moedasDe50)
 dinheiro = float("%.2f" % dinheiro)
 
 moedasDe25 = dinheiro // 0.25
-dinheiro = dinheiro - moedasDe25 * 0.25
+dinheiro -= moedasDe25 * 0.25
 moedasDe25 = float("%.2f" % moedasDe25)
 dinheiro = float("%.2f" % dinheiro)
 
 moedasDe10 = dinheiro // 0.10
-dinheiro = dinheiro - moedasDe10 * 0.10
+dinheiro -= moedasDe10 * 0.10
 moedasDe10 = float("%.2f" % moedasDe10)
 dinheiro = float("%.2f" % dinheiro)
 
 moedasDe5 = dinheiro // 0.05
-dinheiro = dinheiro - moedasDe5 * 0.05
+dinheiro -= moedasDe5 * 0.05
 moedasDe5 = float("%.2f" % moedasDe5)
 dinheiro = float("%.2f" % dinheiro)
 
 moedasDe1C = dinheiro / 0.01
-dinheiro = dinheiro - moedasDe1C * 0.01
+dinheiro -= moedasDe1C * 0.01
 moedasDe1C = float("%.2f" % moedasDe1C)
 dinheiro = float("%.2f" % dinheiro)
 
