@@ -1,8 +1,15 @@
 print("-" * 12, "Bem-vindo ao sistema de ouvidoria da Unifacisa!", "-" * 12)
 
+username = input("Digite seu nome: ")
+userId = int(input("Digite sua matrícula: "))
+
 claims = []  # Array de reclamações
 
+print("\nBem-vindo %s!" % username.capitalize())
+print("Matrícula: %d" % userId)
+
 while True:
+    print("-" * 75)
     print("\nSelecione uma opção:\n")
     print("1 - Listar reclamações")
     print("2 - Adicionar reclamação")
@@ -10,26 +17,22 @@ while True:
     print("4 - Sair\n")
     print("-" * 75)
 
-    option = int(input("Opção: "))
+    option = input("Opção: ")
 
-    if option == 1:
+    if option == "1":
         print()
 
         if len(claims) == 0:
-            print("Não há reclamações para exibir\n")
+            print("\nNão há reclamações para exibir\n")
         else:
             for index, claim in enumerate(claims):
                 print(index + 1, "|", claim)
-    elif option == 2:
-        print()
-
-        claim = input("Digite sua reclamação:\n")
+    elif option == "2":
+        claim = input("\nDigite sua reclamação:\n")
         claims.append(claim)
         print("\nReclamação adicionada com sucesso!")
-    elif option == 3:
-        print()
-
-        deleteAll = input("Deseja apagar todas as reclamações? (s/N) ")
+    elif option == "3":
+        deleteAll = input("\nDeseja apagar todas as reclamações? (s/N) ")
 
         if (
             deleteAll == "s"
@@ -56,8 +59,8 @@ while True:
             else:
                 claims.pop(indexOfClaim - 1)
                 print("\nReclamação removida com sucesso!\n")
-    elif option == 4:
-        print()
-
-        print("Obrigado por usar o sistema de ouvidoria da Unifacisa!")
+    elif option == "4":
+        print("\nObrigado por usar o sistema de ouvidoria da Unifacisa!")
         break
+    else:
+        print("\nOpção inválida")
