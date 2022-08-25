@@ -106,12 +106,12 @@ while True:
                     for index, idea in enumerate(ideas):
                         print(index + 1, "|", idea)
 
-                indexOfClaim = int(input("\nNúmero da ideia: "))
+                indexOfIdea = int(input("\nNúmero da ideia: "))
 
-                if indexOfClaim > len(ideas) or indexOfClaim <= 0:
+                if indexOfIdea > len(ideas) or indexOfIdea <= 0:
                     print("\nNão encontramos a ideia em nosso banco de dados!\n")
                 else:
-                    ideas.pop(indexOfClaim - 1)
+                    ideas.pop(indexOfIdea - 1)
                     print("\nIdeia removida com sucesso!\n")
             elif option == "3":
                 print("\nQual o feedback que você deseja remover?\n")
@@ -122,12 +122,12 @@ while True:
                     for index, other in enumerate(others):
                         print(index + 1, "|", other)
 
-                indexOfClaim = int(input("\nNúmero do feedback: "))
+                indexOfOther = int(input("\nNúmero do feedback: "))
 
-                if indexOfClaim > len(others) or indexOfClaim <= 0:
+                if indexOfOther > len(others) or indexOfOther <= 0:
                     print("\nNão encontramos o feedback em nosso banco de dados!\n")
                 else:
-                    others.pop(indexOfClaim - 1)
+                    others.pop(indexOfOther - 1)
                     print("\nFeedback removido com sucesso!\n")
     elif option == "4":
         print("\nObrigado por usar o sistema de ouvidoria da Unifacisa!")
