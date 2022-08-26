@@ -1,3 +1,6 @@
+# Alex Darllinson Azevedo Gonçalves
+# RA: 2213081009
+
 print("-" * 12, "Bem-vindo ao sistema de ouvidoria da Unifacisa!", "-" * 12)
 
 username = input("Digite seu nome: ")
