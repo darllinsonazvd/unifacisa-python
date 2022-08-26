@@ -25,7 +25,7 @@ while True:
         print()
 
         if len(claims) == 0 and len(ideas) == 0 and len(others) == 0:
-            print("\nNão há feedbacks para exibir\n")
+            print("\nNão há feedbacks para exibir")
         else:
             print("\nReclamações:")
             print("\nNão há reclamações" if len(claims) == 0 else "")
