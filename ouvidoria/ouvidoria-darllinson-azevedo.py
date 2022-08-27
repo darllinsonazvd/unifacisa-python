@@ -19,12 +19,13 @@ while True:
     print("1 - Listar feedbacks")
     print("2 - Adicionar feedback")
     print("3 - Remover feedbacks")
-    print("4 - Sair\n")
+    print("4 - Editar feedbacks")
+    print("5 - Sair\n")
     print("-" * 75)
 
     option = input("Opção: ")
 
-    if option == "1":
+    if option == "1":  # List feedbacks
         print()
 
         if len(claims) == 0 and len(ideas) == 0 and len(others) == 0:
@@ -44,7 +45,7 @@ while True:
             print("\nNão há outros feedbacks" if len(others) == 0 else "")
             for index, other in enumerate(others):
                 print(index + 1, "|", other)
-    elif option == "2":
+    elif option == "2":  # Add feedbacks
         print("\nCategorias:\n")
         print("1 - Reclamação")
         print("2 - Ideia")
@@ -66,7 +67,7 @@ while True:
             print("\nFeedback adicionado com sucesso!")
         else:
             print("\nCategoria não encontrada!\n")
-    elif option == "3":
+    elif option == "3":  # Remove feedbacks
         deleteAll = input("\nDeseja apagar todas os feedbacks? (s/N) ")
 
         if deleteAll == "s" or deleteAll == "S":
@@ -132,8 +133,67 @@ while True:
                 else:
                     others.pop(indexOfOther - 1)
                     print("\nFeedback removido com sucesso!\n")
-    elif option == "4":
+    elif option == "4":  # Edit feedbacks
+        print("\nCategorias:\n")
+        print("1 - Reclamação")
+        print("2 - Ideia")
+        print("3 - Outro")
+
+        category = input("Qual a categoria do feedback que deseja editar? (1 / 2 / 3) ")
+
+        if category == "1":
+            print("\nQual a reclamação que você deseja editar?\n")
+
+            if len(claims) == 0:
+                print("\nNão há reclamações para editar")
+            else:
+                for index, claim in enumerate(claims):
+                    print(index + 1, "|", claim)
+
+            indexOfClaim = int(input("\nNúmero da reclamação: "))
+
+            if indexOfClaim > len(claims) or indexOfClaim <= 0:
+                print("\nNão encontramos a reclamação em nosso banco de dados!\n")
+            else:
+                newClaim = input("\nDigite sua nova reclamação aqui:\n")
+                claims[indexOfClaim - 1] = newClaim
+                print("\nReclamação editada com sucesso!\n")
+        elif category == "2":
+            print("\nQual a ideia que você deseja editar?\n")
+
+            if len(ideas) == 0:
+                print("\nNão há ideias para editar")
+            else:
+                for index, idea in enumerate(ideas):
+                    print(index + 1, "|", idea)
+
+            indexOfIdea = int(input("\nNúmero da ideia: "))
+
+            if indexOfIdea > len(ideas) or indexOfIdea <= 0:
+                print("\nNão encontramos a ideia em nosso banco de dados!\n")
+            else:
+                newIdea = input("\nDigite sua nova ideia aqui:\n")
+                ideas[indexOfIdea - 1] = newIdea
+                print("\nIdeia editada com sucesso!\n")
+        elif category == "3":
+            print("\nQual o feedback que você deseja editar?\n")
+
+            if len(others) == 0:
+                print("\nNão há outros feedbacks para editar")
+            else:
+                for index, other in enumerate(others):
+                    print(index + 1, "|", other)
+
+            indexOfOther = int(input("\nNúmero do feedback: "))
+
+            if indexOfOther > len(other) or indexOfOther <= 0:
+                print("\nNão encontramos o feedback em nosso banco de dados!\n")
+            else:
+                newFeedback = input("\nDigite seu novo feedback aqui:\n")
+                others[indexOfOther - 1] = newFeedback
+                print("\nFeedback editado com sucesso!\n")
+    elif option == "5":  # Quit
         print("\nObrigado por usar o sistema de ouvidoria da Unifacisa!")
         break
-    else:
+    else:  # Error handling
         print("\nOpção inválida")
