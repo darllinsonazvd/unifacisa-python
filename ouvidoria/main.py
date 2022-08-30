@@ -1,5 +1,4 @@
-# Alex Darllinson Azevedo Gonçalves
-# RA: 2213081009
+from utils.databaseOperations import *
 
 print("-" * 12, "Bem-vindo ao sistema de ouvidoria da Unifacisa!", "-" * 12)
 
