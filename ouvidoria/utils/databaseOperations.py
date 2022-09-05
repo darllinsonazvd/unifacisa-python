@@ -1,4 +1,4 @@
-import mysql.connector  # Importante
+import mysql.connector
 
 
 def openDatabase(host, user, password, database):
