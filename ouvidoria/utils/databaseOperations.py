@@ -21,7 +21,7 @@ def insertInDatabase(connection, sql, data):
     return id
 
 
-def listDataBase(connection, sql):
+def listDatabase(connection, sql):
     cursor = connection.cursor()
     cursor.execute(sql)
     results = cursor.fetchall()

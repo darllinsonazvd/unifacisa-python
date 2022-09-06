@@ -1,14 +1,14 @@
 from utils.databaseOperations import *
 
+connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
+
 print("-" * 12, "Bem-vindo ao sistema de ouvidoria da Unifacisa!", "-" * 12)
 
-username = input("Digite seu nome: ")
+username = input("Digite seu nome: ").capitalize()
 userId = int(input("Digite sua matrícula: "))
 
-feedbacks = {"claims": [], "ideas": [], "others": []}
-
-print("\nBem-vindo %s!" % username.capitalize())
-print("Matrícula: %d" % userId)
+print("\nBem-vindo %s!" % username)
+print("Matrícula: %s" % userId)
 
 while True:
     print("-" * 75)
@@ -25,27 +25,29 @@ while True:
     if option == "1":  # List feedbacks
         print()
 
-        if (
-            len(feedbacks["claims"]) == 0
-            and len(feedbacks["ideas"]) == 0
-            and len(feedbacks["others"]) == 0
-        ):
-            print("\nNão há feedbacks para exibir")
-        else:
-            print("\nReclamações:")
-            print("\nNão há reclamações" if len(feedbacks["claims"]) == 0 else "")
-            for index, claim in enumerate(feedbacks["claims"]):
-                print(index + 1, "|", claim)
+        print("\nReclamações:\n")
+        sqlCode = "SELECT * FROM claims"
+        listClaims = listDatabase(connection, sqlCode)
 
-            print("\nIdeias:")
-            print("\nNão há ideias" if len(feedbacks["ideas"]) == 0 else "")
-            for index, idea in enumerate(feedbacks["ideas"]):
-                print(index + 1, "|", idea)
+        print("Protocolo | Autor | Descrição\n")
+        for itemDB in listClaims:
+            print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            print("\nOutros:")
-            print("\nNão há outros feedbacks" if len(feedbacks["others"]) == 0 else "")
-            for index, other in enumerate(feedbacks["others"]):
-                print(index + 1, "|", other)
+        print("\nIdeias:\n")
+        sqlCode = "SELECT * FROM ideas"
+        listIdeas = listDatabase(connection, sqlCode)
+
+        print("Protocolo | Autor | Descrição\n")
+        for itemDB in listIdeas:
+            print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
+
+        print("\nOutros:\n")
+        sqlCode = "SELECT * FROM othersFeedbacks"
+        listOthers = listDatabase(connection, sqlCode)
+
+        print("Protocolo | Autor | Descrição\n")
+        for itemDB in listOthers:
+            print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
     elif option == "2":  # Add feedbacks
         print("\nCategorias:\n")
         print("1 - Reclamação")
@@ -56,84 +58,91 @@ while True:
 
         if category == "1":
             claim = input("\nDigite sua reclamação:\n")
-            feedbacks["claims"].append(claim)
+
+            sqlCode = "INSERT INTO claims(author, claim) VALUES (%s, %s)"
+            data = (username, claim)
+            insertInDatabase(connection, sqlCode, data)
+
             print("\nReclamação adicionada com sucesso!")
         elif category == "2":
             idea = input("\nDigite sua ideia:\n")
-            feedbacks["ideas"].append(idea)
+
+            sqlCode = "INSERT INTO ideas(author, idea) VALUES (%s, %s)"
+            data = (username, idea)
+            insertInDatabase(connection, sqlCode, data)
+
             print("\nIdeia adicionada com sucesso!")
         elif category == "3":
             other = input("\nDigite seu feedback:\n")
-            feedbacks["others"].append(other)
+
+            sqlCode = "INSERT INTO othersFeedbacks(author, feedback) VALUES (%s, %s)"
+            data = (username, other)
+            insertInDatabase(connection, sqlCode, data)
+
             print("\nFeedback adicionado com sucesso!")
         else:
             print("\nCategoria não encontrada!\n")
     elif option == "3":  # Remove feedbacks
-        deleteAll = input("\nDeseja apagar todas os feedbacks? (s/N) ")
+        print("\nCategorias:\n")
+        print("1 - Reclamação")
+        print("2 - Ideia")
+        print("3 - Outro")
 
-        if deleteAll == "s" or deleteAll == "S":
-            feedbacks["claims"].clear()
-            feedbacks["ideas"].clear()
-            feedbacks["others"].clear()
-            print("\nTodas os feedbacks foram removidos!")
-        else:
-            print("\nCategorias:\n")
-            print("1 - Reclamação")
-            print("2 - Ideia")
-            print("3 - Outro")
+        category = input(
+            "Qual a categoria do feedback que deseja remover? (1 / 2 / 3) "
+        )
 
-            category = input(
-                "Qual a categoria do feedback que deseja remover? (1 / 2 / 3) "
-            )
+        if category == "1":
+            print("\nQual a reclamação que você deseja remover?\n")
 
-            if category == "1":
-                print("\nQual a reclamação que você deseja remover?\n")
+            sqlCode = "SELECT * FROM claims"
+            listOthers = listDatabase(connection, sqlCode)
 
-                if len(feedbacks["claims"]) == 0:
-                    print("\nNão há reclamações para remover")
-                else:
-                    for index, claim in enumerate(feedbacks["claims"]):
-                        print(index + 1, "|", claim)
+            print("Protocolo | Autor | Descrição")
+            for itemDB in listOthers:
+                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-                indexOfClaim = int(input("\nNúmero da reclamação: "))
+            idOfClaim = int(input("\nNúmero da reclamação: "))
 
-                if indexOfClaim > len(feedbacks["claims"]) or indexOfClaim <= 0:
-                    print("\nNão encontramos a reclamação em nosso banco de dados!\n")
-                else:
-                    feedbacks["claims"].pop(indexOfClaim - 1)
-                    print("\nReclamação removida com sucesso!\n")
-            elif category == "2":
-                print("\nQual a ideia que você deseja remover?\n")
+            sqlCode = "DELETE FROM claims WHERE id = %s"
+            data = (idOfClaim,)
+            deleteRegistryInDatabase(connection, sqlCode, data)
 
-                if len(feedbacks["ideas"]) == 0:
-                    print("\nNão há ideias para remover")
-                else:
-                    for index, idea in enumerate(feedbacks["ideas"]):
-                        print(index + 1, "|", idea)
+            print("\nReclamação removida com sucesso\n")
+        elif category == "2":
+            print("\nQual a ideia que você deseja remover?\n")
 
-                indexOfIdea = int(input("\nNúmero da ideia: "))
+            sqlCode = "SELECT * FROM ideas"
+            listIdeas = listDatabase(connection, sqlCode)
 
-                if indexOfIdea > len(feedbacks["ideas"]) or indexOfIdea <= 0:
-                    print("\nNão encontramos a ideia em nosso banco de dados!\n")
-                else:
-                    feedbacks["ideas"].pop(indexOfIdea - 1)
-                    print("\nIdeia removida com sucesso!\n")
-            elif option == "3":
-                print("\nQual o feedback que você deseja remover?\n")
+            print("Protocolo | Autor | Descrição")
+            for itemDB in listIdeas:
+                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-                if len(other) == 0:
-                    print("\nNão há feedbacks para remover")
-                else:
-                    for index, other in enumerate(feedbacks["others"]):
-                        print(index + 1, "|", other)
+            idOfIdeas = int(input("\nNúmero da ideia: "))
 
-                indexOfOther = int(input("\nNúmero do feedback: "))
+            sqlCode = "DELETE FROM ideas WHERE id = %s"
+            data = (idOfIdeas,)
+            deleteRegistryInDatabase(connection, sqlCode, data)
 
-                if indexOfOther > len(feedbacks["others"]) or indexOfOther <= 0:
-                    print("\nNão encontramos o feedback em nosso banco de dados!\n")
-                else:
-                    feedbacks["others"].pop(indexOfOther - 1)
-                    print("\nFeedback removido com sucesso!\n")
+            print("\nIdeia removida com sucesso\n")
+        elif category == "3":
+            print("\nQual o feedback que você deseja remover?\n")
+
+            sqlCode = "SELECT * FROM othersFeedbacks"
+            listOthers = listDatabase(connection, sqlCode)
+
+            print("Protocolo | Autor | Descrição")
+            for itemDB in listOthers:
+                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
+
+            idOfFeedback = int(input("\nNúmero do feedback: "))
+
+            sqlCode = "DELETE FROM othersFeedbacks WHERE id = %s"
+            data = (idOfFeedback,)
+            deleteRegistryInDatabase(connection, sqlCode, data)
+
+            print("\nFeedback removido com sucesso\n")
     elif option == "4":  # Edit feedbacks
         print("\nCategorias:\n")
         print("1 - Reclamação")
@@ -145,55 +154,59 @@ while True:
         if category == "1":
             print("\nQual a reclamação que você deseja editar?\n")
 
-            if len(feedbacks["claims"]) == 0:
-                print("\nNão há reclamações para editar")
-            else:
-                for index, claim in enumerate(feedbacks["claims"]):
-                    print(index + 1, "|", claim)
+            sqlCode = "SELECT * FROM claims"
+            listClaims = listDatabase(connection, sqlCode)
 
-            indexOfClaim = int(input("\nNúmero da reclamação: "))
+            print("Protocolo | Autor | Descrição")
+            for itemDB in listClaims:
+                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            if indexOfClaim > len(feedbacks["claims"]) or indexOfClaim <= 0:
-                print("\nNão encontramos a reclamação em nosso banco de dados!\n")
-            else:
-                newClaim = input("\nDigite sua nova reclamação aqui:\n")
-                feedbacks["claims"][indexOfClaim - 1] = newClaim
-                print("\nReclamação editada com sucesso!\n")
+            idOfClaim = int(input("\nNúmero da reclamação: "))
+            newClaim = input("\nDigite sua nova reclamação aqui:\n")
+
+            sqlCodeUpdate = "UPDATE claims SET claim = %s WHERE id = %s"
+            data = (newClaim, idOfClaim)
+            updateDatabase(connection, sqlCodeUpdate, data)
+
+            print("\nReclamação editada com sucesso\n")
         elif category == "2":
             print("\nQual a ideia que você deseja editar?\n")
 
-            if len(feedbacks["ideas"]) == 0:
-                print("\nNão há ideias para editar")
-            else:
-                for index, idea in enumerate(feedbacks["ideas"]):
-                    print(index + 1, "|", idea)
+            sqlCode = "SELECT * FROM ideas"
+            listIdeas = listDatabase(connection, sqlCode)
 
-            indexOfIdea = int(input("\nNúmero da ideia: "))
+            print("Protocolo | Autor | Descrição")
+            for itemDB in listIdeas:
+                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            if indexOfIdea > len(feedbacks["ideas"]) or indexOfIdea <= 0:
-                print("\nNão encontramos a ideia em nosso banco de dados!\n")
-            else:
-                newIdea = input("\nDigite sua nova ideia aqui:\n")
-                feedbacks["ideas"][indexOfIdea - 1] = newIdea
-                print("\nIdeia editada com sucesso!\n")
+            idOfIdea = int(input("\nNúmero da ideia: "))
+            newIdea = input("\nDigite sua nova ideia aqui:\n")
+
+            sqlCodeUpdate = "UPDATE ideas SET idea = %s WHERE id = %s"
+            data = (newIdea, idOfIdea)
+            updateDatabase(connection, sqlCodeUpdate, data)
+
+            print("\nIdeia editada com sucesso\n")
         elif category == "3":
             print("\nQual o feedback que você deseja editar?\n")
 
-            if len(feedbacks["others"]) == 0:
-                print("\nNão há outros feedbacks para editar")
-            else:
-                for index, other in enumerate(feedbacks["others"]):
-                    print(index + 1, "|", other)
+            sqlCode = "SELECT * FROM othersFeedbacks"
+            listOthers = listDatabase(connection, sqlCode)
 
-            indexOfOther = int(input("\nNúmero do feedback: "))
+            print("Protocolo | Autor | Descrição")
+            for itemDB in listOthers:
+                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            if indexOfOther > len(other) or indexOfOther <= 0:
-                print("\nNão encontramos o feedback em nosso banco de dados!\n")
-            else:
-                newFeedback = input("\nDigite seu novo feedback aqui:\n")
-                feedbacks["others"][indexOfOther - 1] = newFeedback
-                print("\nFeedback editado com sucesso!\n")
+            idOfFeedback = int(input("\nNúmero do feedback: "))
+            newFeedback = input("\nDigite seu novo feedback aqui:\n")
+
+            sqlCodeUpdate = "UPDATE othersFeedbacks SET feedback = %s WHERE id = %s"
+            data = (newFeedback, idOfFeedback)
+            updateDatabase(connection, sqlCodeUpdate, data)
+
+            print("\nIdeia editada com sucesso\n")
     elif option == "5":  # Quit
+        closeDatabase(connection)
         print("\nObrigado por usar o sistema de ouvidoria da Unifacisa!")
         break
     else:  # Error handling
