@@ -1,5 +1,5 @@
 class Validator:
-    def intOnly(self, value):
+    def readInt(self, value):
         while True:
             try:
                 number = int(input(value))
@@ -8,7 +8,7 @@ class Validator:
             else:
                 return number
 
-    def stringOnly(self, value):
+    def readString(self, value):
         while True:
             try:
                 string = str(input(value))

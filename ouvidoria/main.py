@@ -8,8 +8,8 @@ connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
 formatter.header("SAC Unifacisa")
 
-username = validate.stringOnly("Digite seu nome: ").capitalize()
-userId = validate.intOnly("Digite sua matrícula: ")
+username = validate.readString("Digite seu nome: ").capitalize()
+userId = validate.readInt("Digite sua matrícula: ")
 
 print("\nBem-vindo %s!" % username)
 print("Matrícula: %s" % userId)
@@ -28,7 +28,7 @@ while True:
     )
     print("\n" + formatter.line())
 
-    option = validate.intOnly("Opção: ")
+    option = validate.readInt("Opção: ")
 
     if option == 1:  # List feedbacks
         print()
@@ -60,10 +60,10 @@ while True:
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Outro"])
 
-        category = validate.intOnly("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
+        category = validate.readInt("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
 
         if category == 1:
-            claim = validate.stringOnly("\nDigite sua reclamação:\n")
+            claim = validate.readString("\nDigite sua reclamação:\n")
 
             sqlCode = "INSERT INTO claims(author, claim) VALUES (%s, %s)"
             data = (username, claim)
@@ -71,7 +71,7 @@ while True:
 
             print("\nReclamação adicionada com sucesso!")
         elif category == 2:
-            idea = validate.stringOnly("\nDigite sua ideia:\n")
+            idea = validate.readString("\nDigite sua ideia:\n")
 
             sqlCode = "INSERT INTO ideas(author, idea) VALUES (%s, %s)"
             data = (username, idea)
@@ -79,7 +79,7 @@ while True:
 
             print("\nIdeia adicionada com sucesso!")
         elif category == 3:
-            other = validate.stringOnly("\nDigite seu feedback:\n")
+            other = validate.readString("\nDigite seu feedback:\n")
 
             sqlCode = "INSERT INTO othersFeedbacks(author, feedback) VALUES (%s, %s)"
             data = (username, other)
@@ -92,7 +92,7 @@ while True:
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Outro"])
 
-        category = validate.intOnly("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
+        category = validate.readInt("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
 
         if category == 1:
             print("\nQual a reclamação que você deseja remover?\n")
@@ -104,7 +104,7 @@ while True:
             for itemDB in listOthers:
                 print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            idOfClaim = validate.intOnly("\nNúmero da reclamação: ")
+            idOfClaim = validate.readInt("\nNúmero da reclamação: ")
 
             sqlCode = "DELETE FROM claims WHERE id = %s"
             data = (idOfClaim,)
@@ -121,7 +121,7 @@ while True:
             for itemDB in listIdeas:
                 print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            idOfIdea = validate.intOnly("\nNúmero da ideia: ")
+            idOfIdea = validate.readInt("\nNúmero da ideia: ")
 
             sqlCode = "DELETE FROM ideas WHERE id = %s"
             data = (idOfIdea,)
@@ -138,7 +138,7 @@ while True:
             for itemDB in listOthers:
                 print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            idOfFeedback = validate.intOnly("\nNúmero da ideia: ")
+            idOfFeedback = validate.readInt("\nNúmero da ideia: ")
 
             sqlCode = "DELETE FROM othersFeedbacks WHERE id = %s"
             data = (idOfFeedback,)
@@ -149,7 +149,7 @@ while True:
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Outro"])
 
-        category = validate.intOnly("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
+        category = validate.readInt("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
 
         if category == 1:
             print("\nQual a reclamação que você deseja editar?\n")
@@ -161,8 +161,8 @@ while True:
             for itemDB in listClaims:
                 print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            idOfClaim = validate.intOnly("\nNúmero da reclamação: ")
-            newClaim = validate.stringOnly("\nDigite sua nova reclamação aqui:\n")
+            idOfClaim = validate.readInt("\nNúmero da reclamação: ")
+            newClaim = validate.readString("\nDigite sua nova reclamação aqui:\n")
 
             sqlCodeUpdate = "UPDATE claims SET claim = %s WHERE id = %s"
             data = (newClaim, idOfClaim)
@@ -179,8 +179,8 @@ while True:
             for itemDB in listIdeas:
                 print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            idOfIdea = validate.intOnly("\nNúmero da ideia: ")
-            newIdea = validate.stringOnly("\nDigite sua nova ideia aqui:\n")
+            idOfIdea = validate.readInt("\nNúmero da ideia: ")
+            newIdea = validate.readString("\nDigite sua nova ideia aqui:\n")
 
             sqlCodeUpdate = "UPDATE ideas SET idea = %s WHERE id = %s"
             data = (newIdea, idOfIdea)
@@ -197,8 +197,8 @@ while True:
             for itemDB in listOthers:
                 print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
 
-            idOfFeedback = validate.intOnly("\nNúmero do feedback: ")
-            newFeedback = validate.stringOnly("\nDigite seu novo feedback aqui:\n")
+            idOfFeedback = validate.readInt("\nNúmero do feedback: ")
+            newFeedback = validate.readString("\nDigite seu novo feedback aqui:\n")
 
             sqlCodeUpdate = "UPDATE othersFeedbacks SET feedback = %s WHERE id = %s"
             data = (newFeedback, idOfFeedback)
