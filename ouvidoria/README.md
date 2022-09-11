@@ -6,7 +6,7 @@
 
 # Sobre a aplicação
 
-Aplicação CRUD de um sistema de ouvidoria, fazendo a implementação de categorias (reclamação, ideia/sugestão e outros) e armazenando as informação em um banco de dados MySQL.
+Aplicação CRUD de um sistema de ouvidoria, fazendo a implementação de categorias (reclamação, ideia/sugestão e outros) e armazenando as informações em um banco de dados MySQL em conexão local.
 
 Desenvolvido a fim de ser utilizado como avaliação da disciplina de Linguagem Estruturada do curso de Sistemas de Informação da Unifacisa.
 
