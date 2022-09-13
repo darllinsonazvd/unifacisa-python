@@ -10,6 +10,42 @@ Aplicação CRUD de um sistema de ouvidoria, fazendo a implementação de catego
 
 Desenvolvido a fim de ser utilizado como avaliação da disciplina de Linguagem Estruturada do curso de Sistemas de Informação da Unifacisa.
 
+## Getting Started ▶️
+
+Para rodar a aplicação, clone o repositório com:
+
+```bash
+$ git clone https://github.com/darllinsonazvd/unifacisa-python.git
+```
+
+No MySQL Workbench crie uma nova conexão com o user _root_ e o password _root_ e crias as tabelas com os seguintes comandos:
+
+```sql
+CREATE TABLE claims (
+	id int not null auto_increment primary key,
+    author varchar(45) not null,
+    claim varchar(250) not null
+);
+
+CREATE TABLE ideas (
+	id int not null auto_increment primary key,
+    author varchar(45) not null,
+    idea varchar(250) not null
+);
+
+CREATE TABLE othersFeedbacks (
+	id int not null auto_increment primary key,
+    author varchar(45) not null,
+    feedback varchar(250) not null
+);
+```
+
+Depois é só rodar o arquivo _main.py_ com:
+
+```bash
+$ python ouvidoria/main.py
+```
+
 ## Tecnologias 🚀
 
 - Python 3
