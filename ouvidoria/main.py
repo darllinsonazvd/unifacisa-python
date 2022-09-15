@@ -207,7 +207,9 @@ while True:
             print("\nFeedback editado com sucesso!\n")
     elif option == 5:  # Quit
         closeDatabase(connection)
-        print("\nObrigado por usar o sistema de ouvidoria da Unifacisa!")
+        formatter.header("Obrigado por utilizar o sistema de ouvidoria da Unifacisa!")
+        print("Darllinson Azevedo | 2022".center(75))
+        print("github.com/darllinsonazvd".center(75))
         break
     else:  # Error handling
         print("\nOpção inválida")
