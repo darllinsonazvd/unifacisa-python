@@ -30,9 +30,9 @@ def listDatabase(connection, sql):
     return results
 
 
-def updateDatabase(connection, sql, dados):
+def updateDatabase(connection, sql, data):
     cursor = connection.cursor()
-    cursor.execute(sql, dados)
+    cursor.execute(sql, data)
     connection.commit()
     modifiedLines = cursor.rowcount
     cursor.close()
@@ -40,9 +40,9 @@ def updateDatabase(connection, sql, dados):
     return modifiedLines
 
 
-def deleteRegistryInDatabase(connection, sql, dados):
+def deleteRegistryInDatabase(connection, sql, data):
     cursor = connection.cursor()
-    cursor.execute(sql, dados)
+    cursor.execute(sql, data)
     connection.commit()
     modifiedLines = cursor.rowcount
     cursor.close()
