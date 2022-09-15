@@ -10,10 +10,10 @@ class Validator:
 
     def readString(self, value):
         while True:
-            try:
-                string = str(input(value))
-            except (ValueError, TypeError):
-                print("\033{31mErro: Insira um texto válido!\033[m")
+            string = str(input(value))
+
+            if string == "":
+                print("\033[31mErro: Insira um texto válido!\033[m")
             else:
                 return string
 
