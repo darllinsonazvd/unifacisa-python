@@ -21,6 +21,10 @@ $ git clone https://github.com/darllinsonazvd/unifacisa-python.git
 No MySQL Workbench crie uma nova conexão com o user _root_ e o password _root_ e crias as tabelas com os seguintes comandos:
 
 ```sql
+CREATE DATABASE db_ouvidoria;
+
+USE db_ouvidoria;
+
 CREATE TABLE claims (
 	id int not null auto_increment primary key,
     author varchar(45) not null,
