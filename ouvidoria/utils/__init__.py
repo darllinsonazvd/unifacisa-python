@@ -13,7 +13,7 @@ class Validator:
             string = str(input(value))
 
             if string == "":
-                print("\033[31mErro: Insira um texto válido!\033[m")
+                print("\033[31mErro: Texto vazio, digite algo!\033[m")
             else:
                 return string
 

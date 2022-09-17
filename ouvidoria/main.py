@@ -1,8 +1,15 @@
+from domains.claims import *
+from domains.ideas import *
+from domains.others import *
 from utils import *
 from db.databaseOperations import *
 
 validate = Validator()
 formatter = Formatter()
+
+claims = Claims()
+ideas = Ideas()
+others = OthersFeedbacks()
 
 connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
@@ -31,31 +38,9 @@ while True:
     option = validate.readInt("Opção: ")
 
     if option == 1:  # List feedbacks
-        print()
-
-        formatter.header("Reclamações")
-        sqlCode = "SELECT * FROM claims"
-        listClaims = listDatabase(connection, sqlCode)
-
-        print("Protocolo | Autor | Descrição\n")
-        for itemDB in listClaims:
-            print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
-
-        formatter.header("Ideias")
-        sqlCode = "SELECT * FROM ideas"
-        listIdeas = listDatabase(connection, sqlCode)
-
-        print("Protocolo | Autor | Descrição\n")
-        for itemDB in listIdeas:
-            print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
-
-        formatter.header("Outros feedbacks")
-        sqlCode = "SELECT * FROM othersFeedbacks"
-        listOthers = listDatabase(connection, sqlCode)
-
-        print("Protocolo | Autor | Descrição\n")
-        for itemDB in listOthers:
-            print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
+        claims.getClaims()
+        ideas.getIdeas()
+        others.getOthersFeedbacks()
     elif option == 2:  # Add feedbacks
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Outro"])
@@ -64,30 +49,15 @@ while True:
 
         if category == 1:
             claim = validate.readString("\nDigite sua reclamação:\n")
-
-            sqlCode = "INSERT INTO claims(author, claim) VALUES (%s, %s)"
-            data = (username, claim)
-            insertInDatabase(connection, sqlCode, data)
-
-            print("\nReclamação adicionada com sucesso!")
+            claims.addClaim(username, claim)
         elif category == 2:
             idea = validate.readString("\nDigite sua ideia:\n")
-
-            sqlCode = "INSERT INTO ideas(author, idea) VALUES (%s, %s)"
-            data = (username, idea)
-            insertInDatabase(connection, sqlCode, data)
-
-            print("\nIdeia adicionada com sucesso!")
+            ideas.addIdeas(username, idea)
         elif category == 3:
             other = validate.readString("\nDigite seu feedback:\n")
-
-            sqlCode = "INSERT INTO othersFeedbacks(author, feedback) VALUES (%s, %s)"
-            data = (username, other)
-            insertInDatabase(connection, sqlCode, data)
-
-            print("\nFeedback adicionado com sucesso!")
+            others.addOtherFeedback(username, other)
         else:
-            print("\nCategoria não encontrada!\n")
+            print("\n\033[31mErro: Categoria não encontrada!\033[m\n")
     elif option == 3:  # Remove feedbacks
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Outro"])
@@ -96,55 +66,13 @@ while True:
 
         if category == 1:
             print("\nQual a reclamação que você deseja remover?\n")
-
-            sqlCode = "SELECT * FROM claims"
-            listOthers = listDatabase(connection, sqlCode)
-
-            print("Protocolo | Autor | Descrição")
-            for itemDB in listOthers:
-                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
-
-            idOfClaim = validate.readInt("\nNúmero da reclamação: ")
-
-            sqlCode = "DELETE FROM claims WHERE id = %s"
-            data = (idOfClaim,)
-            deleteRegistryInDatabase(connection, sqlCode, data)
-
-            print("\nReclamação removida com sucesso!\n")
+            claims.deleteClaim()
         elif category == 2:
             print("\nQual a ideia que você deseja remover?\n")
-
-            sqlCode = "SELECT * FROM ideas"
-            listIdeas = listDatabase(connection, sqlCode)
-
-            print("Protocolo | Autor | Descrição")
-            for itemDB in listIdeas:
-                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
-
-            idOfIdea = validate.readInt("\nNúmero da ideia: ")
-
-            sqlCode = "DELETE FROM ideas WHERE id = %s"
-            data = (idOfIdea,)
-            deleteRegistryInDatabase(connection, sqlCode, data)
-
-            print("\nIdeia removida com sucesso!\n")
+            ideas.deleteIdea()
         elif category == 3:
             print("\nQual o feedback que você deseja remover?\n")
-
-            sqlCode = "SELECT * FROM othersFeedbacks"
-            listOthers = listDatabase(connection, sqlCode)
-
-            print("Protocolo | Autor | Descrição")
-            for itemDB in listOthers:
-                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
-
-            idOfFeedback = validate.readInt("\nNúmero da ideia: ")
-
-            sqlCode = "DELETE FROM othersFeedbacks WHERE id = %s"
-            data = (idOfFeedback,)
-            deleteRegistryInDatabase(connection, sqlCode, data)
-
-            print("\nFeedback removido com sucesso!\n")
+            others.deleteOtherFeedback()
     elif option == 4:  # Edit feedbacks
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Outro"])
@@ -154,62 +82,37 @@ while True:
         if category == 1:
             print("\nQual a reclamação que você deseja editar?\n")
 
-            sqlCode = "SELECT * FROM claims"
-            listClaims = listDatabase(connection, sqlCode)
-
-            print("Protocolo | Autor | Descrição")
-            for itemDB in listClaims:
-                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
+            claims.getClaims()
 
             idOfClaim = validate.readInt("\nNúmero da reclamação: ")
             newClaim = validate.readString("\nDigite sua nova reclamação aqui:\n")
 
-            sqlCodeUpdate = "UPDATE claims SET claim = %s WHERE id = %s"
-            data = (newClaim, idOfClaim)
-            updateDatabase(connection, sqlCodeUpdate, data)
-
-            print("\nReclamação editada com sucesso!\n")
+            claims.editClaim(idOfClaim, newClaim)
         elif category == 2:
             print("\nQual a ideia que você deseja editar?\n")
 
-            sqlCode = "SELECT * FROM ideas"
-            listIdeas = listDatabase(connection, sqlCode)
-
-            print("Protocolo | Autor | Descrição")
-            for itemDB in listIdeas:
-                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
+            ideas.getIdeas()
 
             idOfIdea = validate.readInt("\nNúmero da ideia: ")
             newIdea = validate.readString("\nDigite sua nova ideia aqui:\n")
 
-            sqlCodeUpdate = "UPDATE ideas SET idea = %s WHERE id = %s"
-            data = (newIdea, idOfIdea)
-            updateDatabase(connection, sqlCodeUpdate, data)
-
-            print("\nIdeia editada com sucesso!\n")
+            ideas.editIdea(idOfIdea, newIdea)
         elif category == 3:
             print("\nQual o feedback que você deseja editar?\n")
 
-            sqlCode = "SELECT * FROM othersFeedbacks"
-            listOthers = listDatabase(connection, sqlCode)
-
-            print("Protocolo | Autor | Descrição")
-            for itemDB in listOthers:
-                print(str(itemDB[0]) + " | " + itemDB[1] + " | " + itemDB[2])
+            others.getOthersFeedbacks()
 
             idOfFeedback = validate.readInt("\nNúmero do feedback: ")
             newFeedback = validate.readString("\nDigite seu novo feedback aqui:\n")
 
-            sqlCodeUpdate = "UPDATE othersFeedbacks SET feedback = %s WHERE id = %s"
-            data = (newFeedback, idOfFeedback)
-            updateDatabase(connection, sqlCodeUpdate, data)
-
-            print("\nFeedback editado com sucesso!\n")
+            others.editOtherFeedback(idOfFeedback, newFeedback)
     elif option == 5:  # Quit
         closeDatabase(connection)
         formatter.header("Obrigado por utilizar o sistema de ouvidoria da Unifacisa!")
+        print()
         print("Darllinson Azevedo | 2022".center(75))
-        print("github.com/darllinsonazvd".center(75))
+        print("https://www.github.com/darllinsonazvd".center(75))
+        print()
         break
     else:  # Error handling
-        print("\nOpção inválida")
+        print("\n\033[31mErro: Opção inválida!\033[m")
