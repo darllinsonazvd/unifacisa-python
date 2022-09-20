@@ -5,16 +5,16 @@ validate = Validator()
 formatter = Formatter()
 
 
-class Ideas:
-    def getIdeas(self):
+class Compliments:
+    def getCompliments(self):
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
-        formatter.header("Ideias")
-        sqlCode = 'SELECT * FROM feedbacks WHERE type="Ideia"'
-        listIdeas = listDatabase(connection, sqlCode)
+        formatter.header("Elogios")
+        sqlCode = 'SELECT * FROM feedbacks WHERE type="Elogio"'
+        listCompliments = listDatabase(connection, sqlCode)
 
         print("Protocolo | Tipo | Autor | Descrição\n")
-        for itemDB in listIdeas:
+        for itemDB in listCompliments:
             print(
                 str(itemDB[0])
                 + " | "
@@ -27,39 +27,39 @@ class Ideas:
 
         closeDatabase(connection)
 
-    def addIdea(self, author: str, idea: str):
+    def addCompliment(self, author: str, compliment: str):
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
         sqlCode = "INSERT INTO feedbacks(type, author, feedback) VALUES (%s, %s, %s)"
-        data = ("Ideia", author, idea)
+        data = ("Elogio", author, compliment)
         insertInDatabase(connection, sqlCode, data)
 
-        print("\nIdeia adicionada com sucesso!")
+        print("\nElogio adicionado com sucesso!")
 
         closeDatabase(connection)
 
-    def deleteIdea(self):
+    def deleteCompliment(self):
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
-        self.getIdeas()
+        self.getCompliments()
 
-        idOfIdea = validate.readInt("\nNúmero da ideia: ")
+        idOfCompliment = validate.readInt("\nNúmero do elogio: ")
 
         sqlCode = "DELETE FROM feedbacks WHERE id = %s"
-        data = (idOfIdea,)
+        data = (idOfCompliment,)
         deleteRegistryInDatabase(connection, sqlCode, data)
 
-        print("\nIdeia removida com sucesso!\n")
+        print("\nElogio removido com sucesso!\n")
 
         closeDatabase(connection)
 
-    def editIdea(self, id: int, newIdea: str):
+    def editCompliment(self, id: int, newCompliment: str):
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
         sqlCode = "UPDATE feedbacks SET feedback = %s WHERE id = %s"
-        data = (newIdea, id)
+        data = (newCompliment, id)
         updateDatabase(connection, sqlCode, data)
 
-        print("\nIdeia editada com sucesso!\n")
+        print("\nElogio editado com sucesso!\n")
 
         closeDatabase(connection)

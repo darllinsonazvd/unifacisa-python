@@ -1,6 +1,6 @@
 from domains.claims import *
 from domains.ideas import *
-from domains.others import *
+from domains.compliments import *
 from utils import *
 from db.databaseOperations import *
 
@@ -9,7 +9,7 @@ formatter = Formatter()
 
 claims = Claims()
 ideas = Ideas()
-others = OthersFeedbacks()
+compliments = Compliments()
 
 connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
@@ -40,10 +40,10 @@ while True:
     if option == 1:  # List feedbacks
         claims.getClaims()
         ideas.getIdeas()
-        others.getOthersFeedbacks()
+        compliments.getCompliments()
     elif option == 2:  # Add feedbacks
         formatter.header("Categorias:")
-        formatter.menu(["Reclamação", "Ideia", "Outro"])
+        formatter.menu(["Reclamação", "Ideia", "Elogio"])
 
         category = validate.readInt("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
 
@@ -52,15 +52,15 @@ while True:
             claims.addClaim(username, claim)
         elif category == 2:
             idea = validate.readString("\nDigite sua ideia:\n")
-            ideas.addIdeas(username, idea)
+            ideas.addIdea(username, idea)
         elif category == 3:
-            other = validate.readString("\nDigite seu feedback:\n")
-            others.addOtherFeedback(username, other)
+            other = validate.readString("\nDigite seu elogio:\n")
+            compliments.addCompliment(username, other)
         else:
             print("\n\033[31mErro: Categoria não encontrada!\033[m\n")
     elif option == 3:  # Remove feedbacks
         formatter.header("Categorias:")
-        formatter.menu(["Reclamação", "Ideia", "Outro"])
+        formatter.menu(["Reclamação", "Ideia", "Elogio"])
 
         category = validate.readInt("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
 
@@ -71,11 +71,11 @@ while True:
             print("\nQual a ideia que você deseja remover?\n")
             ideas.deleteIdea()
         elif category == 3:
-            print("\nQual o feedback que você deseja remover?\n")
-            others.deleteOtherFeedback()
+            print("\nQual o elogio que você deseja remover?\n")
+            compliments.deleteCompliment()
     elif option == 4:  # Edit feedbacks
         formatter.header("Categorias:")
-        formatter.menu(["Reclamação", "Ideia", "Outro"])
+        formatter.menu(["Reclamação", "Ideia", "Elogio"])
 
         category = validate.readInt("\nQual a categoria do seu feedback? (1 / 2 / 3) ")
 
@@ -98,14 +98,14 @@ while True:
 
             ideas.editIdea(idOfIdea, newIdea)
         elif category == 3:
-            print("\nQual o feedback que você deseja editar?\n")
+            print("\nQual o elogio que você deseja editar?\n")
 
-            others.getOthersFeedbacks()
+            compliments.getCompliments()
 
-            idOfFeedback = validate.readInt("\nNúmero do feedback: ")
-            newFeedback = validate.readString("\nDigite seu novo feedback aqui:\n")
+            idOfCompliment = validate.readInt("\nNúmero do elogio: ")
+            newCompliment = validate.readString("\nDigite seu novo elogio aqui:\n")
 
-            others.editOtherFeedback(idOfFeedback, newFeedback)
+            compliments.editCompliment(idOfCompliment, newCompliment)
     elif option == 5:  # Quit
         closeDatabase(connection)
         formatter.header("Obrigado por utilizar o sistema de ouvidoria da Unifacisa!")

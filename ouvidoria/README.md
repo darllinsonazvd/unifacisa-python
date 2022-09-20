@@ -18,27 +18,16 @@ Para rodar a aplicação, clone o repositório com:
 $ git clone https://github.com/darllinsonazvd/unifacisa-python.git
 ```
 
-No MySQL Workbench crie uma nova conexão com o user _root_ e o password _root_ e crias as tabelas com os seguintes comandos:
+No MySQL Workbench crie uma nova conexão com o user _root_ e o password _root_, depois, crie as tabelas com os seguintes comandos:
 
 ```sql
 CREATE DATABASE db_ouvidoria;
 
 USE db_ouvidoria;
 
-CREATE TABLE claims (
+CREATE TABLE feedbacks (
 	id int not null auto_increment primary key,
-    author varchar(45) not null,
-    claim varchar(250) not null
-);
-
-CREATE TABLE ideas (
-	id int not null auto_increment primary key,
-    author varchar(45) not null,
-    idea varchar(250) not null
-);
-
-CREATE TABLE othersFeedbacks (
-	id int not null auto_increment primary key,
+    type varchar(20) not null,
     author varchar(45) not null,
     feedback varchar(250) not null
 );
