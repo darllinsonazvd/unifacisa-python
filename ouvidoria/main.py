@@ -110,8 +110,8 @@ while True:
         closeDatabase(connection)
         formatter.header("Obrigado por utilizar o sistema de ouvidoria da Unifacisa!")
         print()
-        print("Darllinson Azevedo | 2022".center(75))
-        print("https://www.github.com/darllinsonazvd".center(75))
+        print("Darllinson Azevedo | 2022".center(100))
+        print("https://www.github.com/darllinsonazvd".center(100))
         print()
         break
     else:  # Error handling

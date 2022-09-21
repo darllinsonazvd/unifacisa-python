@@ -13,16 +13,16 @@ class Ideas:
         sqlCode = 'SELECT * FROM feedbacks WHERE type="Ideia"'
         listIdeas = listDatabase(connection, sqlCode)
 
-        print("Protocolo | Tipo | Autor | Descrição\n")
+        print(
+            "{:<12} {:<15} {:<15} {:<10}\n".format(
+                "Protocolo", "Tipo", "Autor", "Descrição"
+            )
+        )
         for itemDB in listIdeas:
             print(
-                str(itemDB[0])
-                + " | "
-                + itemDB[1]
-                + " | "
-                + itemDB[2]
-                + " | "
-                + itemDB[3]
+                "{:<12} {:<15} {:<15} {:<10}".format(
+                    str(itemDB[0]), itemDB[1], itemDB[2], itemDB[3]
+                )
             )
 
         closeDatabase(connection)

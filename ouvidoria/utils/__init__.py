@@ -19,13 +19,13 @@ class Validator:
 
 
 class Formatter:
-    def line(self, size=75):
+    def line(self, size=100):
         return "=" * size
 
     def header(self, value):
-        print("-" * 75)
-        print(value.center(75))
-        print("-" * 75)
+        print("-" * 100)
+        print(value.center(100))
+        print("-" * 100)
 
     def menu(self, list):
         count = 1
