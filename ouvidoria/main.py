@@ -57,7 +57,7 @@ while True:
             other = validate.readString("\nDigite seu elogio:\n")
             compliments.addCompliment(username, other)
         else:
-            print("\n\033[31mErro: Categoria não encontrada!\033[m\n")
+            formatter.errorEmitter("Categoria não encontrada!")
     elif option == 3:  # Remove feedbacks
         formatter.header("Categorias:")
         formatter.menu(["Reclamação", "Ideia", "Elogio"])
@@ -85,27 +85,24 @@ while True:
             claims.getClaims()
 
             idOfClaim = validate.readInt("\nNúmero da reclamação: ")
-            newClaim = validate.readString("\nDigite sua nova reclamação aqui:\n")
 
-            claims.editClaim(idOfClaim, newClaim)
+            claims.editClaim(idOfClaim)
         elif category == 2:
             print("\nQual a ideia que você deseja editar?\n")
 
             ideas.getIdeas()
 
             idOfIdea = validate.readInt("\nNúmero da ideia: ")
-            newIdea = validate.readString("\nDigite sua nova ideia aqui:\n")
 
-            ideas.editIdea(idOfIdea, newIdea)
+            ideas.editIdea(idOfIdea)
         elif category == 3:
             print("\nQual o elogio que você deseja editar?\n")
 
             compliments.getCompliments()
 
             idOfCompliment = validate.readInt("\nNúmero do elogio: ")
-            newCompliment = validate.readString("\nDigite seu novo elogio aqui:\n")
 
-            compliments.editCompliment(idOfCompliment, newCompliment)
+            compliments.editCompliment(idOfCompliment)
     elif option == 5:  # Quit
         closeDatabase(connection)
         formatter.header("Obrigado por utilizar o sistema de ouvidoria da Unifacisa!")
@@ -115,4 +112,4 @@ while True:
         print()
         break
     else:  # Error handling
-        print("\n\033[31mErro: Opção inválida!\033[m")
+        formatter.errorEmitter("Opção inválida!")

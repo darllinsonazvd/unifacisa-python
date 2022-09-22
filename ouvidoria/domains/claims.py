@@ -6,7 +6,17 @@ formatter = Formatter()
 
 
 class Claims:
+    claimsIds = []
+    claimsTypes = []
+    claimsAuthors = []
+    claimsDescriptions = []
+
     def getClaims(self):
+        self.claimsIds = []
+        self.claimsTypes = []
+        self.claimsAuthors = []
+        self.claimsDescriptions = []
+
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
         formatter.header("Reclamações")
@@ -19,9 +29,17 @@ class Claims:
             )
         )
         for itemDB in listClaims:
+            self.claimsIds.append(itemDB[0])
+            self.claimsTypes.append(itemDB[1])
+            self.claimsAuthors.append(itemDB[2])
+            self.claimsDescriptions.append(itemDB[3])
+        for i in range(len(self.claimsIds)):
             print(
                 "{:<12} {:<15} {:<15} {:<10}".format(
-                    str(itemDB[0]), itemDB[1], itemDB[2], itemDB[3]
+                    i + 1,
+                    self.claimsTypes[i],
+                    self.claimsAuthors[i],
+                    self.claimsDescriptions[i],
                 )
             )
 
@@ -34,7 +52,7 @@ class Claims:
         data = ("Reclamação", author, claim)
         insertInDatabase(connection, sqlCode, data)
 
-        print("\nReclamação adicionada com sucesso!")
+        formatter.successEmitter("Reclamação adicionada com sucesso!")
 
         closeDatabase(connection)
 
@@ -45,21 +63,31 @@ class Claims:
 
         idOfClaim = validate.readInt("\nNúmero da reclamação: ")
 
-        sqlCode = "DELETE FROM feedbacks WHERE id = %s"
-        data = (idOfClaim,)
-        deleteRegistryInDatabase(connection, sqlCode, data)
+        if idOfClaim == 0 or idOfClaim > len(self.claimsIds):
+            formatter.errorEmitter("Reclamação não encontrada!")
+        else:
+            id = self.claimsIds[idOfClaim - 1]
+            sqlCode = "DELETE FROM feedbacks WHERE id = %s"
+            data = (id,)
+            deleteRegistryInDatabase(connection, sqlCode, data)
 
-        print("\nReclamação removida com sucesso!\n")
+            formatter.successEmitter("Reclamação removida com sucesso!")
 
         closeDatabase(connection)
 
-    def editClaim(self, id: int, newClaim: str):
+    def editClaim(self, idOfClaim: int):
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
-        sqlCode = "UPDATE feedbacks SET feedback = %s WHERE id = %s"
-        data = (newClaim, id)
-        updateDatabase(connection, sqlCode, data)
+        if idOfClaim == 0 or idOfClaim > len(self.claimsIds):
+            formatter.errorEmitter("Reclamação não encontrada!")
+        else:
+            newClaim = validate.readString("\nDigite sua nova reclamação aqui:\n")
 
-        print("\nReclamação editada com sucesso!\n")
+            id = self.claimsIds[idOfClaim - 1]
+            sqlCode = "UPDATE feedbacks SET feedback = %s WHERE id = %s"
+            data = (newClaim, id)
+            updateDatabase(connection, sqlCode, data)
+
+            formatter.successEmitter("Reclamação editada com sucesso!")
 
         closeDatabase(connection)

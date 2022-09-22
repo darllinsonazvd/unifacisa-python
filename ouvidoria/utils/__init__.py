@@ -33,3 +33,9 @@ class Formatter:
         for items in list:
             print(f"\033[33m{count})\033[m \033[34m{items}\033[m")
             count += 1
+
+    def successEmitter(self, msg):
+        print(f"\n\033[92m{msg}\033[m\n")
+
+    def errorEmitter(self, err):
+        print(f"\n\033[31mErro: {err}\033[m\n")

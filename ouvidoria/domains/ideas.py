@@ -6,7 +6,17 @@ formatter = Formatter()
 
 
 class Ideas:
+    ideasIds = []
+    ideasTypes = []
+    ideasAuthors = []
+    ideasDescriptions = []
+
     def getIdeas(self):
+        self.ideasIds = []
+        self.ideasTypes = []
+        self.ideasAuthors = []
+        self.ideasDescriptions = []
+
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
         formatter.header("Ideias")
@@ -19,9 +29,17 @@ class Ideas:
             )
         )
         for itemDB in listIdeas:
+            self.ideasIds.append(itemDB[0])
+            self.ideasTypes.append(itemDB[1])
+            self.ideasAuthors.append(itemDB[2])
+            self.ideasDescriptions.append(itemDB[3])
+        for i in range(len(self.ideasIds)):
             print(
                 "{:<12} {:<15} {:<15} {:<10}".format(
-                    str(itemDB[0]), itemDB[1], itemDB[2], itemDB[3]
+                    i + 1,
+                    self.ideasTypes[i],
+                    self.ideasAuthors[i],
+                    self.ideasDescriptions[i],
                 )
             )
 
@@ -34,7 +52,7 @@ class Ideas:
         data = ("Ideia", author, idea)
         insertInDatabase(connection, sqlCode, data)
 
-        print("\nIdeia adicionada com sucesso!")
+        formatter.successEmitter("Ideia adicionada com sucesso!")
 
         closeDatabase(connection)
 
@@ -45,21 +63,31 @@ class Ideas:
 
         idOfIdea = validate.readInt("\nNúmero da ideia: ")
 
-        sqlCode = "DELETE FROM feedbacks WHERE id = %s"
-        data = (idOfIdea,)
-        deleteRegistryInDatabase(connection, sqlCode, data)
+        if idOfIdea == 0 or idOfIdea > len(self.ideasIds):
+            formatter.errorEmitter("Ideia não encontrada!")
+        else:
+            id = self.ideasIds[idOfIdea - 1]
+            sqlCode = "DELETE FROM feedbacks WHERE id = %s"
+            data = (id,)
+            deleteRegistryInDatabase(connection, sqlCode, data)
 
-        print("\nIdeia removida com sucesso!\n")
+            formatter.successEmitter("Ideia removida com sucesso!")
 
         closeDatabase(connection)
 
-    def editIdea(self, id: int, newIdea: str):
+    def editIdea(self, idOfIdea: int):
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
-        sqlCode = "UPDATE feedbacks SET feedback = %s WHERE id = %s"
-        data = (newIdea, id)
-        updateDatabase(connection, sqlCode, data)
+        if idOfIdea == 0 or idOfIdea > len(self.ideasIds):
+            formatter.errorEmitter("Ideia não encontrada!")
+        else:
+            newIdea = validate.readString("\nDigite sua nova ideia aqui:\n")
 
-        print("\nIdeia editada com sucesso!\n")
+            id = self.ideasIds[idOfIdea - 1]
+            sqlCode = "UPDATE feedbacks SET feedback = %s WHERE id = %s"
+            data = (newIdea, id)
+            updateDatabase(connection, sqlCode, data)
+
+            formatter.successEmitter("Ideia editada com sucesso!")
 
         closeDatabase(connection)
