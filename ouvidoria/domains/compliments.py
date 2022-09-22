@@ -6,16 +6,11 @@ formatter = Formatter()
 
 
 class Compliments:
-    ideasIds = []
-    ideasTypes = []
-    ideasAuthors = []
-    ideasDescriptions = []
+    complimentsIds = []
 
     def getCompliments(self):
         self.complimentsIds = []
-        self.complimentsTypes = []
-        self.complimentsAuthors = []
-        self.complimentsDescriptions = []
+        indexOfCompliment = 1
 
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
@@ -29,19 +24,17 @@ class Compliments:
             )
         )
         for itemDB in listCompliments:
-            self.complimentsIds.append(itemDB[0])
-            self.complimentsTypes.append(itemDB[1])
-            self.complimentsAuthors.append(itemDB[2])
-            self.complimentsDescriptions.append(itemDB[3])
-        for i in range(len(self.complimentsIds)):
             print(
                 "{:<12} {:<15} {:<15} {:<10}".format(
-                    i + 1,
-                    self.complimentsTypes[i],
-                    self.complimentsAuthors[i],
-                    self.complimentsDescriptions[i],
+                    indexOfCompliment,
+                    itemDB[1],
+                    itemDB[2],
+                    itemDB[3],
                 )
             )
+
+            self.complimentsIds.append(itemDB[0])
+            indexOfCompliment += 1
 
         closeDatabase(connection)
 

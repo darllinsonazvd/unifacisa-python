@@ -7,15 +7,10 @@ formatter = Formatter()
 
 class Ideas:
     ideasIds = []
-    ideasTypes = []
-    ideasAuthors = []
-    ideasDescriptions = []
 
     def getIdeas(self):
         self.ideasIds = []
-        self.ideasTypes = []
-        self.ideasAuthors = []
-        self.ideasDescriptions = []
+        indexOfIdea = 1
 
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
@@ -29,19 +24,17 @@ class Ideas:
             )
         )
         for itemDB in listIdeas:
-            self.ideasIds.append(itemDB[0])
-            self.ideasTypes.append(itemDB[1])
-            self.ideasAuthors.append(itemDB[2])
-            self.ideasDescriptions.append(itemDB[3])
-        for i in range(len(self.ideasIds)):
             print(
                 "{:<12} {:<15} {:<15} {:<10}".format(
-                    i + 1,
-                    self.ideasTypes[i],
-                    self.ideasAuthors[i],
-                    self.ideasDescriptions[i],
+                    indexOfIdea,
+                    itemDB[1],
+                    itemDB[2],
+                    itemDB[3],
                 )
             )
+
+            self.ideasIds.append(itemDB[0])
+            indexOfIdea += 1
 
         closeDatabase(connection)
 

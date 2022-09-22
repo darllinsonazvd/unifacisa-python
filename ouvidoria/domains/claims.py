@@ -7,15 +7,10 @@ formatter = Formatter()
 
 class Claims:
     claimsIds = []
-    claimsTypes = []
-    claimsAuthors = []
-    claimsDescriptions = []
 
     def getClaims(self):
         self.claimsIds = []
-        self.claimsTypes = []
-        self.claimsAuthors = []
-        self.claimsDescriptions = []
+        indexOfClaim = 1
 
         connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
@@ -29,19 +24,17 @@ class Claims:
             )
         )
         for itemDB in listClaims:
-            self.claimsIds.append(itemDB[0])
-            self.claimsTypes.append(itemDB[1])
-            self.claimsAuthors.append(itemDB[2])
-            self.claimsDescriptions.append(itemDB[3])
-        for i in range(len(self.claimsIds)):
             print(
                 "{:<12} {:<15} {:<15} {:<10}".format(
-                    i + 1,
-                    self.claimsTypes[i],
-                    self.claimsAuthors[i],
-                    self.claimsDescriptions[i],
+                    indexOfClaim,
+                    itemDB[1],
+                    itemDB[2],
+                    itemDB[3],
                 )
             )
+
+            self.claimsIds.append(itemDB[0])
+            indexOfClaim += 1
 
         closeDatabase(connection)
 
