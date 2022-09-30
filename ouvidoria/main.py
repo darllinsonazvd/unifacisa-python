@@ -1,6 +1,6 @@
-from domains.claims import *
-from domains.ideas import *
-from domains.compliments import *
+from domains.Claims import *
+from domains.Ideas import *
+from domains.Compliments import *
 from utils import *
 from db.databaseOperations import *
 
@@ -13,7 +13,7 @@ compliments = Compliments()
 
 connection = openDatabase("localhost", "root", "root", "db_ouvidoria")
 
-formatter.header("SAC Unifacisa")
+formatter.header("Ouvidoria Unifacisa")
 
 username = validate.readString("Digite seu nome: ").capitalize()
 userId = validate.readInt("Digite sua matrícula: ")
