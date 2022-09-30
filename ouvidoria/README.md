@@ -26,7 +26,7 @@ CREATE DATABASE db_ouvidoria;
 USE db_ouvidoria;
 
 CREATE TABLE feedbacks (
-	id int not null auto_increment primary key,
+    id int not null auto_increment primary key,
     type varchar(20) not null,
     author varchar(45) not null,
     feedback varchar(250) not null
@@ -38,6 +38,8 @@ Depois é só rodar o arquivo _main.py_ com:
 ```bash
 $ python ouvidoria/main.py
 ```
+
+_Recomendado utilizar o app Windows Terminal para melhor visualização_
 
 ## Tecnologias 🚀
 
